@@ -87,10 +87,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\include;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0\lib;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\lib;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>freeglut.dll;glew32.dll;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\include;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0\lib;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freeglut.dll;glew32.dll;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
