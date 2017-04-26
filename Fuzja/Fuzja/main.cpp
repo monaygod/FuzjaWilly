@@ -1,47 +1,33 @@
 #include <cstdio>
 #include <stdlib.h>
 #include <time.h>
-#include <atltime.h>
 #include <windows.h>
 #include <iostream>
 
 #include "C_Willy.h"
 #include "Render.h"
 #include "Update.h"
+#include "c_hex.h"
 
 
+int main(int argc, char* argv[]) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(500, 500);
+	glutCreateWindow("Map Test");
 
-int counter = 0;
+	initGL();
 
-void processInput() {
+	glEnable(GL_DEPTH_TEST);
+	glutDisplayFunc(display);
+	glutIdleFunc(update);
+	glutReshapeFunc(reshape);
 
+	glutSpecialFunc(Keys);
+	glutMouseFunc(mouse);
+	glutMouseWheelFunc(MouseWheel);
 
+	glutMainLoop();
+	return 0;
 }
-void update() {
-
-}
-
-
-//int main(int argc, char* argv[]) {
-//	double lastTime = GetTickCount();
-//	double current;
-//	while (true)
-//	{
-//		while (1)
-//		{
-//			current = GetTickCount();
-//			double delta = current - lastTime;
-//			if (delta > 1000) break;
-//		}
-//		processInput();
-//		update(/*elapsed*/);
-//			render(argc,argv);
-//			std::cout << "asd";
-//			system("pause");
-//			setLayers(counter);
-//		lastTime = current;
-//		counter++;
-//	}
-//
-//	return 0;
-//}

@@ -1,9 +1,9 @@
-#include <iostream>
 #include <Windows.h>
 #include <GL\glew.h>
 #include <GL\freeglut.h>
 #include <iostream>
 
+#include "c_hex.h"
 using namespace std;
 
 float angleCouter = 0;
@@ -11,11 +11,9 @@ double rotate_y = 0;
 double rotate_x = 0;
 double zoom = 0.5;
 int layers = 1;
+c_hex *tabWsk[100][100];
+int counter = 0;
 
-void setLayers(int x) {
-	layers = x;
-	glutPostRedisplay();
-}
 
 void reshape(int w, int h)
 {
@@ -33,39 +31,59 @@ void initGL() {
 	GLfloat b = 0.5;
 	glClearColor(r, g, b, 1.0);
 }
-void drawHex(double center[2], double hexSize, double color[3]) {
-	float hexHeight = 2 * 0.866*hexSize;
-	glBegin(GL_POLYGON);
-	glColor3f(color[0], color[1], color[2]);
-	/*1*/glVertex3f(center[0] - (2 * hexSize), center[1], 0.01);
-	glColor3f(color[0] + 0.1, color[1], color[2]);
-	/*2*/glVertex3f(center[0] - hexSize, center[1] + hexHeight, 0.01);
-	glColor3f(color[0] + 0.3, color[1], color[2]);
-	/*3*/glVertex3f(center[0] + hexSize, center[1] + hexHeight, 0.01);
-	glColor3f(color[0] + 0.5, color[1], color[2]);
-	/*4*/glVertex3f(center[0] + (2 * hexSize), center[1], 0.01);
-	glColor3f(color[0] + 0.7, color[1], color[2]);
-	/*5*/glVertex3f(center[0] + hexSize, center[1] - hexHeight, 0.01);
-	glColor3f(color[0] + 0.9, color[1], color[2]);
-	/*6*/glVertex3f(center[0] - hexSize, center[1] - hexHeight, 0.01);
-	glEnd();
 
+
+void drawHex(double center[2], double hexSize, double color[3]) {
+
+	//tabWsk[counter] = new c_hex();
+	//tabWsk[counter]->posX = center[0];
+	//tabWsk[counter]->posY = center[1];
+	//tabWsk[counter]->temp = temp[counter];
+	counter++;
+
+	float hexHeight = 2 * 0.866 * hexSize;
 	glBegin(GL_POLYGON);
+
 	glColor3f(color[0], color[1], color[2]);
 	/*1*/glVertex3f(center[0] - (2 * hexSize), center[1], 0.0);
-	glColor3f(color[0] + 0.1, color[1], color[2]);
+	glColor3f(color[0] + 0.01, color[1] + 0.1, color[2] + 0.1);
 	/*2*/glVertex3f(center[0] - hexSize, center[1] + hexHeight, 0.0);
-	glColor3f(color[0] + 0.3, color[1], color[2]);
+	glColor3f(color[0] + 0.05, color[1] + 0.05, color[2] + 0.05);
 	/*3*/glVertex3f(center[0] + hexSize, center[1] + hexHeight, 0.0);
-	glColor3f(color[0] + 0.5, color[1], color[2]);
+	glColor3f(color[0] + 0.10, color[1] + 0.10, color[2] + 0.10);
 	/*4*/glVertex3f(center[0] + (2 * hexSize), center[1], 0.0);
-	glColor3f(color[0] + 0.7, color[1], color[2]);
+	glColor3f(color[0] + 0.15, color[1] + 0.15, color[2] + 0.15);
 	/*5*/glVertex3f(center[0] + hexSize, center[1] - hexHeight, 0.0);
-	glColor3f(color[0] + 0.9, color[1], color[2]);
+	glColor3f(color[0] + 0.20, color[1] + 0.20, color[2] + 0.20);
 	/*6*/glVertex3f(center[0] - hexSize, center[1] - hexHeight, 0.0);
 	glEnd();
 }
-/*ale zmiany*/
+
+void initMap(int mapSize) {
+	for (int x = 0; x < mapSize; x++) {
+		for (int y = 0; y < mapSize; y++) {
+			tabWsk[x][y] = new c_hex();
+			tabWsk[x][y]->ID = (counter * 99) / 2.76;
+			tabWsk[x][y]->posX = x;
+			tabWsk[x][y]->posY = y;
+			tabWsk[x][y]->temperature = 1;
+			tabWsk[x][y]->food = 0;
+			counter++;
+		}
+	}
+}
+void Sasiedzi() {
+	for (int x = 0; x < 100; x++) {
+		for (int y = 0; y < 100; y++) {
+			tabWsk[x][y]->next[0] = tabWsk[x][y - 1];
+			tabWsk[x][y]->next[3] = tabWsk[x][y + 1];
+			tabWsk[x][y]->next[2] = tabWsk[x][y - 1];
+			tabWsk[x][y]->next[3] = tabWsk[x][y - 1];
+			tabWsk[x][y]->next[4] = tabWsk[x][y - 1];
+			tabWsk[x][y]->next[5] = tabWsk[x][y - 1];
+		}
+	}
+}
 
 void makeMap(int layers) {
 	double forFun = 0.1;
@@ -73,10 +91,10 @@ void makeMap(int layers) {
 	origin[0] = 0;
 	origin[1] = 0;
 	double hexCenter[2];
-	double hexSize = 0.009;
+	double hexSize = 0.010;
 	double hexHeight = 2 * 0.866 * hexSize;
 	double color[3];
-	color[0] = 0.1;	color[1] = 0.5; color[2] = 0.7;
+	color[0] = 0.5;	color[1] = 0.5; color[2] = 0.5;
 
 
 	drawHex(origin, hexSize, color);
@@ -88,7 +106,7 @@ void makeMap(int layers) {
 
 		for (int j = 0; j < i * 6; j++) {
 			forFun += 0.0005;
-			color[0] = forFun;	color[1] = forFun; color[2] = 0.3;
+			color[0] = 0.01;	color[1] = forFun; color[2] = 2 - forFun;
 			drawHex(hexCenter, hexSize, color);
 
 			if (j < i) {
@@ -123,21 +141,47 @@ void makeMap(int layers) {
 			}
 		}
 	}
-
-
 }
-void test() {
-	std::cout << "asd";
-	double lastTime = GetTickCount();
-	double current;
-		while (1)
-		{
-			current = GetTickCount();
-			double delta = current - lastTime;
-			if (delta > 1000) break;
+
+void makeMap_2(int layers) {
+	double color[3];
+	int couter = 1;
+	double hexSize = 0.10;
+	double hexHeight = 2 * 0.866 * hexSize;
+	double hexCenter[2];
+
+	hexCenter[0] = -1 + 2 * hexSize;
+	hexCenter[1] = 1 - hexHeight;
+
+	color[0] = 0.5;	color[1] = 0.5; color[2] = 0.5;
+
+	for (int x = 0; x < layers; x++) {
+
+		for (int y = 1; y < layers; y++) {
+			drawHex(hexCenter, hexSize, color);
+
+			couter++;
+			/*
+			sasiad z lewej hex posX-1 x prawej hexPosX +1
+			sasiad z gory hex posy-1 y do³ hexPosY +1
+			if parzyste
+			posY+1
+			*/
+			hexCenter[0] += 3 * hexSize;
+			if (y % 2 == 1) {
+				hexCenter[1] -= hexHeight;
+			}
+			else if (y % 2 == 0) {
+				hexCenter[1] += hexHeight;
+			}
+
 		}
-		lastTime = current;
+		hexCenter[0] = -1 + 2 * hexSize;
+		hexCenter[1] = 1 - hexHeight;
+		hexCenter[1] -= 2 * x * hexHeight;
+	}
 }
+
 void display() {
 	//  Clear screen and Z-buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -149,7 +193,7 @@ void display() {
 	center[0] = 0;
 	center[1] = 0;
 
-	test();
+
 	glLoadIdentity();
 
 	glPushMatrix(); // save the current matrix
@@ -159,7 +203,7 @@ void display() {
 	glRotatef(rotate_y, 0.0, 1.0, 0.0); // Rotate in Y-AXIS
 
 										//drawHex(center, hexSize);
-	makeMap(layers);
+	makeMap_2(layers);
 
 	glPopMatrix(); // load the unscaled matrix	
 	glutSwapBuffers();
@@ -204,26 +248,4 @@ void MouseWheel(int wheel, int direction, int x, int y) {
 		zoom -= 0.05;
 	}
 	glutPostRedisplay();
-}
-
-int render(int argc, char* argv[]) {
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(500, 500);
-	glutCreateWindow("Map Test");
-
-	initGL();
-
-	glEnable(GL_DEPTH_TEST);
-	glutDisplayFunc(display);
-	glutIdleFunc(display);
-	glutReshapeFunc(reshape);
-
-	glutSpecialFunc(Keys);
-	glutMouseFunc(mouse);
-	glutMouseWheelFunc(MouseWheel);
-
-	glutMainLoop();
-	return 0;
 }
