@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="c_hex.cpp" />
     <ClCompile Include="C_Willy.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Update.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="c_hex.h" />
     <ClInclude Include="C_Willy.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="resource.h" />
@@ -81,7 +83,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\include;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\lib;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -91,7 +96,6 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0\lib;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freeglut.dll;glew32.dll;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

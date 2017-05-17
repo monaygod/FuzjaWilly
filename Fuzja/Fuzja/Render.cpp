@@ -10,7 +10,7 @@ float angleCouter = 0;
 double rotate_y = 0;
 double rotate_x = 0;
 double zoom = 0.5;
-int layers = 1;
+int layers = 3;
 c_hex *tabWsk[100][100];
 int counter = 0;
 
@@ -63,11 +63,11 @@ void initMap(int mapSize) {
 	for (int x = 0; x < mapSize; x++) {
 		for (int y = 0; y < mapSize; y++) {
 			tabWsk[x][y] = new c_hex();
-			tabWsk[x][y]->ID = (counter * 99) / 2.76;
+			tabWsk[x][y]->ID = counter;
 			tabWsk[x][y]->posX = x;
 			tabWsk[x][y]->posY = y;
-			tabWsk[x][y]->temperature = 1;
-			tabWsk[x][y]->food = 0;
+			tabWsk[x][y]->temperature = (rand() % 60 -20) ;
+			tabWsk[x][y]->food = rand()%100;
 			counter++;
 		}
 	}
@@ -77,71 +77,73 @@ void Sasiedzi() {
 		for (int y = 0; y < 100; y++) {
 			tabWsk[x][y]->next[0] = tabWsk[x][y - 1];
 			tabWsk[x][y]->next[3] = tabWsk[x][y + 1];
-			tabWsk[x][y]->next[2] = tabWsk[x][y - 1];
-			tabWsk[x][y]->next[3] = tabWsk[x][y - 1];
-			tabWsk[x][y]->next[4] = tabWsk[x][y - 1];
-			tabWsk[x][y]->next[5] = tabWsk[x][y - 1];
-		}
-	}
-}
-
-void makeMap(int layers) {
-	double forFun = 0.1;
-	double origin[2];
-	origin[0] = 0;
-	origin[1] = 0;
-	double hexCenter[2];
-	double hexSize = 0.010;
-	double hexHeight = 2 * 0.866 * hexSize;
-	double color[3];
-	color[0] = 0.5;	color[1] = 0.5; color[2] = 0.5;
-
-
-	drawHex(origin, hexSize, color);
-
-	for (int i = 1; i <= layers; i++) {
-		//przesuniecie w gore
-		hexCenter[0] = origin[0];
-		hexCenter[1] = origin[1] + 2 * i*hexHeight;
-
-		for (int j = 0; j < i * 6; j++) {
-			forFun += 0.0005;
-			color[0] = 0.01;	color[1] = forFun; color[2] = 2 - forFun;
-			drawHex(hexCenter, hexSize, color);
-
-			if (j < i) {
-				//skos w prawo
-				hexCenter[0] += 3 * hexSize;
-				hexCenter[1] -= hexHeight;
-			}
-			if (j >= i && j < i + i) {
-				//pionowo w dol
-				hexCenter[0] += 0;
-				hexCenter[1] -= 2 * hexHeight;
-			}
-			if (j >= i + i && j < i + i + i) {
-				//skos w lewo
-				hexCenter[0] -= 3 * hexSize;
-				hexCenter[1] -= hexHeight;
-			}
-			if (j >= i + i + i && j < i + i + i + i) {
-				//skos w lewo
-				hexCenter[0] -= 3 * hexSize;
-				hexCenter[1] += hexHeight;
-			}
-			if (j >= i + i + i + i && j < i + i + i + i + i) {
-				//pionowo w gore
-				hexCenter[0] += 0;
-				hexCenter[1] += 2 * hexHeight;
-			}
-			if (j >= i + i + i + i + i && j < i + i + i + i + i + i) {
-				//skos w prawo
-				hexCenter[0] += 3 * hexSize;
-				hexCenter[1] += hexHeight;
+			if (x % 2 == 0) {
+				tabWsk[x][y]->next[1] = tabWsk[x+1][y - 1];
+				tabWsk[x][y]->next[2] = tabWsk[x][y - 1];
+				tabWsk[x][y]->next[4] = tabWsk[x][y - 1];
+				tabWsk[x][y]->next[5] = tabWsk[x][y - 1];
 			}
 		}
 	}
 }
+
+//void makeMap(int layers) {
+//	double forFun = 0.1;
+//	double origin[2];
+//	origin[0] = 0;
+//	origin[1] = 0;
+//	double hexCenter[2];
+//	double hexSize = 0.010;
+//	double hexHeight = 2 * 0.866 * hexSize;
+//	double color[3];
+//	color[0] = 0.5;	color[1] = 0.5; color[2] = 0.5;
+//
+//
+//	drawHex(origin, hexSize, color);
+//
+//	for (int i = 1; i <= layers; i++) {
+//		//przesuniecie w gore
+//		hexCenter[0] = origin[0];
+//		hexCenter[1] = origin[1] + 2 * i*hexHeight;
+//
+//		for (int j = 0; j < i * 6; j++) {
+//			forFun += 0.0005;
+//			color[0] = 0.01;	color[1] = forFun; color[2] = 2 - forFun;
+//			drawHex(hexCenter, hexSize, color);
+//
+//			if (j < i) {
+//				//skos w prawo
+//				hexCenter[0] += 3 * hexSize;
+//				hexCenter[1] -= hexHeight;
+//			}
+//			if (j >= i && j < i + i) {
+//				//pionowo w dol
+//				hexCenter[0] += 0;
+//				hexCenter[1] -= 2 * hexHeight;
+//			}
+//			if (j >= i + i && j < i + i + i) {
+//				//skos w lewo
+//				hexCenter[0] -= 3 * hexSize;
+//				hexCenter[1] -= hexHeight;
+//			}
+//			if (j >= i + i + i && j < i + i + i + i) {
+//				//skos w lewo
+//				hexCenter[0] -= 3 * hexSize;
+//				hexCenter[1] += hexHeight;
+//			}
+//			if (j >= i + i + i + i && j < i + i + i + i + i) {
+//				//pionowo w gore
+//				hexCenter[0] += 0;
+//				hexCenter[1] += 2 * hexHeight;
+//			}
+//			if (j >= i + i + i + i + i && j < i + i + i + i + i + i) {
+//				//skos w prawo
+//				hexCenter[0] += 3 * hexSize;
+//				hexCenter[1] += hexHeight;
+//			}
+//		}
+//	}
+//}
 
 void makeMap_2(int layers) {
 	double color[3];
