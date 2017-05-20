@@ -12,6 +12,7 @@ public:
 	bool chrom[CHROM_LENGHT][CHROM_WIDTH];
 	int fitness[CHROM_WIDTH];
 	bool chosen = false;
+	bool bylem_tam[1000];
 
 
 	void init();

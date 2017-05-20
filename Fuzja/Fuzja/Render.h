@@ -15,10 +15,11 @@
 void reshape(int w, int h);
 void initGL();
 void drawHex(double center[2], double hexSize, double color[3]);
-void initMap(int mapSize);
+void initMap();
 void Sasiedzi();
 void makeMap(int layers);
 void makeMap_2(int layers);
+void makeMap_3();
 void display();
 void Keys(int key, int x, int y);
 void mouse(int button, int state, int x, int y);

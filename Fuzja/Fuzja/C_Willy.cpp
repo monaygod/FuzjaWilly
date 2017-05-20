@@ -1,6 +1,20 @@
 #include "C_Willy.h"
+#include "c_hex.h"
 #include <math.h>
 #include <stdlib.h>
+
+
+C_Willy::C_Willy()
+{
+	init();
+}
+
+
+C_Willy::~C_Willy()
+{
+}
+
+//------------------------------------------------------------------------------
 
 void C_Willy::init() 
 {
@@ -15,6 +29,7 @@ void C_Willy::init()
 	}
 };
 
+//------------------------------------------------------------------------------
 
 
 void C_Willy::losowanie(C_Willy willy1[]) {
@@ -106,15 +121,7 @@ float C_Willy::srednia_fitness(C_Willy willy1[], int a) {
 	b = b / POPULATION;
 	return b;
 }
+
 //------------------------------------------------------------------------------------
 
-C_Willy::C_Willy()
-{
-	init();
-}
-
-
-C_Willy::~C_Willy()
-{
-}
 

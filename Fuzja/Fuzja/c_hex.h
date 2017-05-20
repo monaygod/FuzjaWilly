@@ -4,6 +4,7 @@ class c_hex
 public:
 	int posX;
 	int posY;
+	double center[2];
 	double temperature;
 	double food;
 	//double height;

@@ -15,4 +15,5 @@
 
 
 
-void update();
+void update(C_Willy willy1[]);
+void nowa_populacja(C_Willy willy1[]);

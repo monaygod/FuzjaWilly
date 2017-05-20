@@ -11,6 +11,10 @@
 
 
 int main(int argc, char* argv[]) {
+	srand((unsigned int)time(NULL));
+	initMap();
+	Sasiedzi();
+	
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
@@ -21,7 +25,7 @@ int main(int argc, char* argv[]) {
 
 	glEnable(GL_DEPTH_TEST);
 	glutDisplayFunc(display);
-	glutIdleFunc(update);
+	glutIdleFunc(display);
 	glutReshapeFunc(reshape);
 
 	glutSpecialFunc(Keys);

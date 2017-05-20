@@ -96,6 +96,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\glew-1.11.0\lib;G:\GitHub\FuzjaWilly\FuzjaWilly\Fuzja\Glew and Glut\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

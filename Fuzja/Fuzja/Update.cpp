@@ -11,11 +11,11 @@ int main_static = 1;
 bool czy_juz = true;
 
 
+void update(C_Willy willy1[]) {
 
+}
 
-void update() {
-	srand((unsigned int)time(NULL));
-	C_Willy willy1[POPULATION];
+void nowa_populacja(C_Willy willy1[]) {
 		C_Willy::fitness_function(willy1);
 		for (int i = 0;i < 2000;i++) {
 			C_Willy::group_random(willy1);
