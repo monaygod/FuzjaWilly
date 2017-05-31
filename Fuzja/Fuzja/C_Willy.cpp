@@ -125,3 +125,47 @@ float C_Willy::srednia_fitness(C_Willy willy1[], int a) {
 //------------------------------------------------------------------------------------
 
 
+void C_Willy::Poruszanie() {
+	c_hex *next[6];
+	for (int i = 0; i < 6; i++) {
+		next[i] = c_hex::getSasiedzi(i);
+	}
+	int i = 1;
+	while(i!=0)
+	{
+		int b = rand() % 6;
+		if (next(b) != NULL) {
+			bool w = CzyBylemTam(b);
+			if (!w) {
+				i = 0;				
+			}
+			else {
+				if (next(b).food >= FoodNeeded) {
+					i = 0;
+				}
+			}
+		}
+	}
+}
+
+void C_Willy::Jedzenie() {
+	int jedzenie = c_hex::getFood(x,y);
+	if (jedzenie > FoodNeeded) {
+		c_hex::consume(x, y, FoodNeeded);
+		C_Willy::AddEnergy(1);
+	}
+	else {
+		c_hex::consume(x, y, jedzenie);
+		double w = jedzenie / FoodNeeded;
+		C_Willy::AddEnergy(w);
+	}
+}
+
+void C_Willy::Life() {
+	if (energy < energyNeeded) {
+		C_Willy::die();
+	}
+	else {
+		energy -= energyNeeded;
+	}
+}

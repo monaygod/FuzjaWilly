@@ -25,7 +25,7 @@ public:
 	static void new_population( C_Willy willy1[], int wybranych);
 	static float srednia_fitness( C_Willy willy1[], int a);
 	/*------------------------------*/
-	
+	void C_Willy::Poruszanie();
 
 	~C_Willy();
 	
