@@ -5,3 +5,5 @@
 #define POPULATION 10000
 #define GROUP_SIZE 15
 #define LOS 100
+#define MAP_SIZE 3
+#define hexSize 0.10

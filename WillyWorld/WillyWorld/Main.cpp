@@ -15,24 +15,17 @@
 
 using namespace std;
 c_data *dane;
+c_map *map;
 std::vector<C_Willy> willy;
 
 int main(int argc, char* argv[]) {
 	dane = new c_data();
 	srand((unsigned int)time(NULL));
-	c_map map(dane->getMapSize());
+	map = new c_map(dane->getMapSize());
 	for (int i = 0; i < dane->getPopSize(); i++) {
 		C_Willy asd;
 		willy.push_back(asd);
 	}
-	
-	//for (int i = 0; i < dane->generations; i++) {
-	//	Sleep(1000);
-	//	update();
-	//}
-
-	initMap();
-	Sasiedzi();
 
 
 	glutInit(&argc, argv);

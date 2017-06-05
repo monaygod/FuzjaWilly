@@ -11,10 +11,11 @@
 #include <GL\glew.h>
 #include <GL\freeglut.h>
 #include <iostream>
+#include "Constans.h"
 
 void reshape(int w, int h);
 void initGL();
-void drawHex(double center[2], double hexSize, double color[3]);
+void drawHex(double center[2], double color[3]);
 void initMap();
 void Sasiedzi();
 void makeMap(int layers);
