@@ -19,8 +19,8 @@ public:
 	int ile_losowan = 100;
 
 	inline c_data() {
-		cout << "Wielkosc populacji: "; cin >> wielkosc_populacji; cout << endl;
-		cout << "Wielkosc mapy: "; cin >> wielkosc_mapy; cout << endl;
+		cout << "Population size: "; cin >> wielkosc_populacji; cout << endl;
+		cout << "Map size: "; cin >> wielkosc_mapy; cout << endl;
 	}
 	inline int c_data::getMapSize() {
 		return wielkosc_mapy;

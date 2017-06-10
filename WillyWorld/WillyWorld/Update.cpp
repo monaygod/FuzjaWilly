@@ -16,8 +16,8 @@ extern c_data *dane;
 extern c_map *map;
 int main_static = 0;
 bool czy_juz = true;
-int ile_do_ruch = 0;
-int ile_do_new_pop = 0;
+int ile_do_ruch = 11;
+int ile_do_new_pop = 35;
 int popAlive = 0;
 
 void nowa_populacja(std::vector<C_Willy>& willy1, c_data *d1);
@@ -28,7 +28,7 @@ void update() {
 	if (ile_do_ruch > 10) {
 		if (ile_do_new_pop > 25) {
 			if (ile_do_new_pop > 35) {
-				cout << "Nowa Populacja" << endl;
+				cout << "New Populaton" << endl;
 				nowa_populacja(willy, dane);
 				ile_do_new_pop = 0;
 				ile_do_ruch = 0;
@@ -43,7 +43,7 @@ void update() {
 					popAlive++;
 				}
 			}
-			cout << "Ruch " << "   Alive: " << popAlive << endl;
+			cout << "Move " << "\t   Alive: " << popAlive << endl;
 			ruch(willy, dane);
 			//funckja ruchu
 			ile_do_ruch = 0;
