@@ -36,7 +36,7 @@ void initGL() {
 	glClearColor(r, g, b, 1.0);
 }
 
-void drawWilly(double center[2], int max, int x, int y) {
+void drawWilly(double center[2], int max) {
 	double willyCenter[6][2];
 	float hexHeight = 0.866 * hexSize;
 
@@ -59,6 +59,7 @@ void drawWilly(double center[2], int max, int x, int y) {
 	willyCenter[5][1] = center[1] - hexHeight;
 
 	float radius = 0.02;
+	
 	for (int w = 0; w < max; w++) {
 		glBegin(GL_POLYGON);
 		glColor3f(0.0, 0.0, 0.0);
@@ -88,7 +89,7 @@ void drawHex(double color1[3], c_map *m, int x, int y) {
 		//color[0] = willy[map->tabWsk[x][y].WillyID].color[0];
 		//color[1] = willy[map->tabWsk[x][y].WillyID].color[1];
 		//color[2] = willy[map->tabWsk[x][y].WillyID].color[2];
-		drawWilly(center, m->tabWsk[x][y].zajete,x,y);
+		drawWilly(center, m->tabWsk[x][y].zajete);
 
 	}
 

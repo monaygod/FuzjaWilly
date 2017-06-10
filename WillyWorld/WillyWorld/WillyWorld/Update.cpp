@@ -23,17 +23,12 @@ void nowa_populacja(std::vector<C_Willy>& willy1, c_data *d1);
 void ruch(std::vector<C_Willy>& willy1, c_data *d1);
 
 void update() {
-	if (ile_do_ruch > 10) {
+	if (ile_do_ruch > 100) {
 		if (ile_do_new_pop > 20) {
-			if (ile_do_new_pop > 35) {
-				cout << "Nowa Populacja" << endl;
-				nowa_populacja(willy, dane);
-				ile_do_new_pop = 0;
-				ile_do_ruch = 0;
-			}
-			else {
-				ile_do_new_pop++;
-			}
+			cout << "Nowa Populacja" << endl;
+			//nowa_populacja(willy, dane);
+			ile_do_new_pop = 0;
+			ile_do_ruch = 0;
 		}
 		else {
 			cout << "Ruch" << endl;
@@ -62,19 +57,11 @@ void nowa_populacja(std::vector<C_Willy>& willy1, c_data *d1) {
 		"\t2.: " << C_Willy::srednia_fitness(willy1, d1, 1) <<
 		"\t3.: " << C_Willy::srednia_fitness(willy1, d1, 2) << "\t" << wybranych << endl;
 	main_static++;
-	map->initMap();
-	for (int i = 0; i < d1->getPopSize(); i++)	{
-		willy[i].dont_die();
-	}
 }
 
 void ruch(std::vector<C_Willy>& willy1, c_data *d1) {
 	for (int i = 0; i < d1->getPopSize(); i++) {
-		if (willy[i].died == false) {
-			willy1[i].Poruszanie();
-			willy1[i].Jedzenie();
-			willy1[i].Life();
-		}
+		willy1[i].Poruszanie();
 	}
 
 }

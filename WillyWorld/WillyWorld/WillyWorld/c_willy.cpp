@@ -46,18 +46,13 @@ void C_Willy::init(int ID){
 	color[0] = (rand() % 100) / 99.0;
 	color[1] = (rand() % 100) / 99.0;
 	color[2] = (rand() % 100) / 99.0;
-	chosen = false;
-	died = false;
+
 	//calcChromValue() 
 
-	energyResistance = (1000-calcChromValue(0))/1000;
-	energyBeing = (1000 - calcChromValue(1)) / 40;
-	energyMove = (1000 - calcChromValue(2)) / 14;
+	energyResistance = (1000-calcChromValue(2))/1000;
+	energyBeing = (1000 - calcChromValue(2)) / 500;
+	energyMove = (1000 - calcChromValue(2)) / 100;
 	ile_moge_temp = bezpieczny_zakres / energyResistance;
-
-	energy = 100;
-	FoodNeeded = 30;
-	stalaEnergii = 50;
 
 };
 
@@ -72,7 +67,11 @@ void C_Willy::losowanie(std::vector<C_Willy>& willy1, c_data *d) {
 void C_Willy::fitness_function(std::vector<C_Willy>& willy1, c_data *d) {
 	for (int i = 0; i < d->getPopSize(); i++) {
 		for (int j = 0; j < d->chrom_width; j++) {
-			willy1[i].fitness[j] = willy1[i].calcChromValue(j) * (3 - j);
+			int a = 0, b = 0, c = 0;
+			a = (4 * willy1[i].chrom[0][j]) + (2 * willy1[i].chrom[1][j]) + (1 * willy1[i].chrom[2][j]);
+			b = (4 * willy1[i].chrom[3][j]) + (2 * willy1[i].chrom[4][j]) + (1 * willy1[i].chrom[5][j]);
+			c = (4 * willy1[i].chrom[6][j]) + (2 * willy1[i].chrom[7][j]) + (1 * willy1[i].chrom[8][j]);
+			willy1[i].fitness[j] = (1 * a) + (1 * b) + (1 * c);
 		}
 	}
 }
@@ -158,49 +157,40 @@ void C_Willy::Poruszanie() {
 		next[i] = map->tabWsk[x][y].next[i];
 	}
 	int ile_prob = 0;
-	if (map->tabWsk[x][y].food == 0) {
-		int i = 1;
-		while (i != 0)
-		{
-			int b = rand() % 6;
-			if (next[b] != NULL) {
-				if (next[b]->zajete < 6) {
+	int i = 1;
+	while (i != 0)
+	{
+		int b = rand() % 6;
+		if (next[b] != NULL) {
+			if (next[b]->zajete < 6) {
+				i = 0;
+				map->tabWsk[x][y].zajete --;
+				next[b]->zajete++;
+				//next[b]->WillyID = ID;
+				x = next[b]->posX;
+				y = next[b]->posY;
+				/*bool w = CzyBylemTam(b);
+				if (!w) {
 					i = 0;
-					map->tabWsk[x][y].zajete--;
-					next[b]->zajete++;
-					x = next[b]->posX;
-					y = next[b]->posY;
-					/*bool w = CzyBylemTam(b);
-					if (!w) {
+				}
+				else {
+					if (next(b).food >= FoodNeeded) {
 						i = 0;
 					}
-					else {
-						if (next(b).food >= FoodNeeded) {
-							i = 0;
-						}
-					}*/
-				}
-				if (ile_prob > 6) {
-					i = 0;
-				}
+				}*/
 			}
-			ile_prob++;
-
+			if (ile_prob > 6) {
+				i = 0;
+			}
 		}
+		ile_prob++;
+
 	}
 }
 void C_Willy::Jedzenie() {
+
 	if (map->tabWsk[x][y].food != 0) {
-		int jedzenie = map->tabWsk[x][y].food;
-			if (jedzenie > FoodNeeded) {
-				map->tabWsk[x][y].food -= FoodNeeded;
-				C_Willy::AddEnergy(1);
-			}
-			else {
-				map->tabWsk[x][y].food = 0;
-				double w = jedzenie / FoodNeeded;
-				C_Willy::AddEnergy(w);
-			}
+
 	}
 }
 int C_Willy::calcChromValue(int w) {
@@ -214,8 +204,8 @@ int C_Willy::calcChromValue(int w) {
 bool C_Willy::calcSafeTemp() {
 	int base = 10;
 
-	if (map->tabWsk[x][y].temperature < ile_moge_temp ||
-		map->tabWsk[x][y].temperature > -ile_moge_temp) {
+	if (map->tabWsk[x][y].temperature < (bezpieczny_zakres / energyResistance) ||
+		map->tabWsk[x][y].temperature > (-bezpieczny_zakres / energyResistance)) {
 		return true;
 	}
 	else {
@@ -223,48 +213,28 @@ bool C_Willy::calcSafeTemp() {
 	}
 }
 
-void C_Willy::die() {
-	map->tabWsk[x][y].zajete--;
-	died = true;
-}void C_Willy::dont_die() {
-	int this_id = ID;
-	energyResistance = (1000 - calcChromValue(0)) / 1000;
-	energyBeing = (1000 - calcChromValue(1)) / 40;
-	energyMove = (1000 - calcChromValue(2)) / 14;
-	ile_moge_temp = bezpieczny_zakres / energyResistance;
-	energy = 100;
-	died = false;
-	int i = 1;
-	while (i != 0) {
-		y = rand() % (map->my_size);
-		x = rand() % (map->my_size);
+//void C_Willy::die() {
 
-		if (map->tabWsk[x][y].zajete < 6) {
-			map->tabWsk[x][y].zajete++;
-			i = 0;
-		}
-	}
-}
-
-void C_Willy::Life() {
-	if (calcSafeTemp()) {
-		if (energy < energyBeing) {
-			C_Willy::die();
-		}
-		else {
-			energy -= energyBeing;
-		}
-	}
-	else {
-		double energyBeing2 = energyBeing * 1.5;
-		if (energy < energyBeing2) {
-			C_Willy::die();
-		}
-		else {
-			energy -= energyBeing2;
-		}
-	}
-}
-void C_Willy::AddEnergy(double w) {
-	energy += (stalaEnergii * w);
-}
+//}
+//
+//void C_Willy::Jedzenie() {
+//	int jedzenie = c_hex::getFood(x, y);
+//	if (jedzenie > FoodNeeded) {
+//		c_hex::consume(x, y, FoodNeeded);
+//		C_Willy::AddEnergy(1);
+//	}
+//	else {
+//		c_hex::consume(x, y, jedzenie);
+//		double w = jedzenie / FoodNeeded;
+//		C_Willy::AddEnergy(w);
+//	}
+//}
+//
+//void C_Willy::Life() {
+//	if (energy < energyNeeded) {
+//		C_Willy::die();
+//	}
+//	else {
+//		energy -= energyNeeded;
+//	}
+//}

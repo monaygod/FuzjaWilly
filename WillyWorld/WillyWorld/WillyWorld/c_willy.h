@@ -16,14 +16,11 @@ public:
 	double energyMove;
 	double energyResistance;
 	double ile_moge_temp;
-	double FoodNeeded;
-	double stalaEnergii;
-	bool chosen;
+	bool chosen = false;
+	bool bylem_tam[1000];
 	double color[3];
 	int x;
 	int y;
-	bool died;
-	double energy;
 
 
 	void init(int ID);
@@ -41,10 +38,6 @@ public:
 	void C_Willy::Jedzenie();
 	int C_Willy::calcChromValue(int w);
 	bool C_Willy::calcSafeTemp();
-	void C_Willy::die();
-	void C_Willy::dont_die();
-	void C_Willy::Life();
-	void C_Willy::AddEnergy(double w);
 	~C_Willy();
 
 };
