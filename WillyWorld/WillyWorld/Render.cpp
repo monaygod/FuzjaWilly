@@ -30,9 +30,9 @@ void reshape(int w, int h)
 }
 
 void initGL() {
-	GLfloat r = 0.2;
+	GLfloat r = 0.3;
 	GLfloat g = 0.3;
-	GLfloat b = 0.5;
+	GLfloat b = 0.3;
 	glClearColor(r, g, b, 1.0);
 }
 
@@ -58,10 +58,10 @@ void drawWilly(double center[2], int max, int x, int y) {
 	willyCenter[5][0] = center[0] - (hexSize / 2);
 	willyCenter[5][1] = center[1] - hexHeight;
 
-	float radius = 0.02;
+	float radius = 0.01;
 	for (int w = 0; w < max; w++) {
 		glBegin(GL_POLYGON);
-		glColor3f(0.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		for (int i = 0; i < 360; i++)
 		{
 			float theta = 2.0f * 3.1415926f * float(i) / float(360);
@@ -72,6 +72,7 @@ void drawWilly(double center[2], int max, int x, int y) {
 	
 
 }
+
 void drawHex(double color1[3], c_map *m, int x, int y) {
 
 	float hexHeight = 2 * 0.866 * hexSize;
@@ -82,6 +83,19 @@ void drawHex(double color1[3], c_map *m, int x, int y) {
 	color[0] = color1[0];
 	color[1] = color1[1];
 	color[2] = color1[2];
+	double temperature = 0;
+
+	temperature = m->tabWsk[x][y].temperature;
+	if (temperature <= 0.0) {
+		color[0] += (temperature / 50.0);
+		color[1] += (temperature / 100.0);
+		color[2] -= (temperature / 1000.0);
+	}
+	else {
+		color[0] += (temperature / 1000.0);
+		color[1] -= (temperature / 100.0);
+		color[2] -= (temperature / 50.0);
+	}
 
 	if (m->tabWsk[x][y].zajete != 0) {
 
@@ -113,7 +127,7 @@ void drawHex(double color1[3], c_map *m, int x, int y) {
 
 void makeMap_3() {
 	double color[3];
-	color[0] = 0.5;	color[1] = 0.5; color[2] = 0.5;
+	color[0] = 0.7;	color[1] = 0.7; color[2] = 0.7;
 	for (int y = 0; y < map->my_size; y++) {
 		for (int x = 0; x < map->my_size; x++) {
 			drawHex(color, map, x, y);
@@ -128,8 +142,8 @@ void display() {
 
 	glLoadIdentity();
 
-	gluLookAt(0.0+rotate_x, 0.0 + rotate_y, 1.0,
-			  0.0 + rotate_x, 0.0 + rotate_y, 0.0,
+	gluLookAt(0.25 + rotate_x, -0.4 + rotate_y, 1.0,
+			 0.25 + rotate_x, -0.4 + rotate_y, 0.0,
 			  0.0, 1.0, 0.0);
 
 	glPushMatrix(); // save the current matrix
@@ -146,13 +160,13 @@ void display() {
 
 void Keys(int key, int x, int y) {
 
-	if (key == GLUT_KEY_RIGHT) { cout << rotate_x << "\n"; rotate_x += 0.05; }
+	if (key == GLUT_KEY_RIGHT) { /*cout << rotate_x << "\n";*/ rotate_x += 0.05; }
 
-	else if (key == GLUT_KEY_LEFT) { cout << rotate_x << "\n"; rotate_x -= 0.05; }
+	else if (key == GLUT_KEY_LEFT) { /*cout << rotate_x << "\n";*/ rotate_x -= 0.05; }
 
-	else if (key == GLUT_KEY_UP) { cout << rotate_y << "\n"; rotate_y += 0.05; }
+	else if (key == GLUT_KEY_UP) { /*cout << rotate_y << "\n";*/ rotate_y += 0.05; }
 
-	else if (key == GLUT_KEY_DOWN) { cout << rotate_y << "\n"; rotate_y -= 0.05; }
+	else if (key == GLUT_KEY_DOWN) { /*cout << rotate_y << "\n";*/ rotate_y -= 0.05; }
 
 	//  Request display update
 	glutPostRedisplay();
@@ -178,11 +192,11 @@ void MouseWheel(int wheel, int direction, int x, int y) {
 	wheel = 0;
 	if (direction == -1) {
 		zoom -= 0.05;
-		cout << "zoom:"<<zoom;
+		/*cout << "zoom:"<<zoom;*/
 	}
 	else if (direction == +1) {
 		zoom += 0.05;
-		cout << "zoom:" << zoom;
+		/*cout << "zoom:" << zoom;*/
 	}
 	glutPostRedisplay();
 }

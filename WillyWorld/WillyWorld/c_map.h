@@ -20,6 +20,7 @@ public:
 	void initMap();
 	void Sasiedzi();
 	c_map(int size);
+	void c_map::clearMap();
 	
 	~c_map();
 };

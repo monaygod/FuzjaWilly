@@ -72,7 +72,7 @@ void C_Willy::losowanie(std::vector<C_Willy>& willy1, c_data *d) {
 void C_Willy::fitness_function(std::vector<C_Willy>& willy1, c_data *d) {
 	for (int i = 0; i < d->getPopSize(); i++) {
 		for (int j = 0; j < d->chrom_width; j++) {
-			willy1[i].fitness[j] = willy1[i].calcChromValue(j) * (3 - j);
+			willy1[i].fitness[j] = willy1[i].calcChromValue(j) ;
 		}
 	}
 }
@@ -226,7 +226,9 @@ bool C_Willy::calcSafeTemp() {
 void C_Willy::die() {
 	map->tabWsk[x][y].zajete--;
 	died = true;
-}void C_Willy::dont_die() {
+
+}
+void C_Willy::dont_die() {
 	int this_id = ID;
 	energyResistance = (1000 - calcChromValue(0)) / 1000;
 	energyBeing = (1000 - calcChromValue(1)) / 40;
@@ -267,4 +269,10 @@ void C_Willy::Life() {
 }
 void C_Willy::AddEnergy(double w) {
 	energy += (stalaEnergii * w);
+}
+void C_Willy::obliczStatystyki() {
+	energyResistance = (1000 - calcChromValue(0)) / 1000;
+	energyBeing = (1000 - calcChromValue(1)) / 40;
+	energyMove = (1000 - calcChromValue(2)) / 14;
+	ile_moge_temp = bezpieczny_zakres / energyResistance;
 }

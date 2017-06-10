@@ -8,3 +8,4 @@
 #define MAP_SIZE 3
 #define hexSize 0.10
 #define bezpieczny_zakres 10
+#define MAX_FOOD

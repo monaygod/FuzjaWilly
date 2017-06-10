@@ -11,6 +11,7 @@ c_map::c_map(int size)
 	initMap();
 	Sasiedzi();
 }
+
 void c_map::initMap() {
 	double hexHeight = 2 * 0.866 * hexSize;
 	double hexCenter[2];
@@ -26,8 +27,9 @@ void c_map::initMap() {
 			tabWsk[x][y].center[1] = hexCenter[1];
 
 			/* asd */
-			tabWsk[x][y].temperature = (rand() % 61 - 10);
-			tabWsk[x][y].food = ((rand() % 60) + 40);
+			tabWsk[x][y].temperature = (rand() % 700 - 300)/10.0;
+			tabWsk[x][y].food_max = ((rand() % 120) + 80.0);
+			tabWsk[x][y].food = tabWsk[x][y].food_max;
 
 			counter++;
 			hexCenter[0] += 3 * hexSize;
@@ -71,6 +73,14 @@ void c_map::Sasiedzi() {
 				else tabWsk[x][y].next[5] = NULL;
 			}
 		}
+	}
+}
+void c_map::clearMap() {
+	for (int y = 0; y < my_size; y++) {
+		for (int x = 0; x < my_size; x++) {
+			tabWsk[x][y].zajete = 0;
+			tabWsk[x][y].food = tabWsk[x][y].food_max;
+		}			
 	}
 }
 

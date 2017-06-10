@@ -45,6 +45,7 @@ public:
 	void C_Willy::dont_die();
 	void C_Willy::Life();
 	void C_Willy::AddEnergy(double w);
+	void C_Willy::obliczStatystyki();
 	~C_Willy();
 
 };

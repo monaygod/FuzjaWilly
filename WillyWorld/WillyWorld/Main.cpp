@@ -19,21 +19,24 @@ c_map *map;
 std::vector<C_Willy> willy;
 
 int main(int argc, char* argv[]) {
-	dane = new c_data();
+	
 	srand((unsigned int)time(NULL));
+
+
+	dane = new c_data();
 	map = new c_map(dane->getMapSize());
+
 	for (int i = 0; i < dane->getPopSize(); i++) {
 		C_Willy asd(i);
 		asd.ID = i;
 		willy.push_back(asd);
 	}
 
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(500, 500);
-	glutCreateWindow("Map Test");
+	glutInitWindowSize(700, 700);
+	glutInitWindowPosition(550, 300);
+	glutCreateWindow("Willy World || JakubC && JonatanD");
 
 	initGL();
 

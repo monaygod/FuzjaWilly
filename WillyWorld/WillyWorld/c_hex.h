@@ -7,6 +7,7 @@ public:
 	double center[2];
 	double temperature;
 	double food;
+	double food_max;
 	//double height;
 	int ID;
 	int WillyID=-1;
